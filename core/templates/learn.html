@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Learn | SkillSwap</title>
+    <style>
+        :root { --primary-blue: #007bff; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 40px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { color: var(--primary-blue); text-align: center; }
+
+        .skill-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border-left: 6px solid var(--primary-blue);
+        }
+        .skill-info h2 { margin: 0; color: #333; font-size: 1.4rem; }
+        .skill-info p { margin: 8px 0 0; color: #666; }
+
+        .view-more-btn, .edit-btn, .teacher-chat-btn {
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .view-more-btn {
+            background: var(--primary-blue);
+            color: white;
+            margin-right: 8px;
+        }
+        .view-more-btn:hover { background: #0056b3; transform: scale(1.05); }
+
+        .edit-btn {
+            background: #28a745;
+            color: white;
+            margin-right: 8px;
+        }
+        .edit-btn:hover { background: #218838; transform: scale(1.05); }
+
+        .teacher-chat-btn {
+            background: #ff9800;
+            color: white;
+        }
+        .teacher-chat-btn:hover { background: #e68a00; transform: scale(1.05); }
+
+        .card-buttons { display: flex; align-items: center; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Available Topics</h1>
+
+        {% for post in skills %}
+        <div class="skill-card">
+            <div class="skill-info">
+                <h2>{{ post.topic }}</h2>
+                <p>👨‍🏫 Teacher: <strong>{{ post.teacher.first_name }} {{ post.teacher.last_name }}</strong></p>
+            </div>
+
+            <div class="card-buttons">
+                <!-- View detail & chat (everyone) -->
+                <a href="{% url 'skill_detail' post.id %}" class="view-more-btn">View & Chat</a>
+
+                <!-- Only show these to the teacher who created the post -->
+                {% if request.user == post.teacher %}
+                    <!-- View teacher's own chat page -->
+
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+            <p style="text-align:center; color:#666;">No topics uploaded yet.</p>
+        {% endfor %}
+
+        <div style="text-align:center; margin-top:20px;">
+            <a href="/" style="color: var(--primary-blue); text-decoration:none;">← Back to Home</a>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home | SkillSwap</title>
+    <style>
+        :root {
+            --primary-blue: #007bff;
+            --dark-blue: #0056b3;
+            --light-bg: #f4f7f6;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background-color: var(--light-bg);
+        }
+
+        /* Navigation Bar */
+        nav {
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero h1 {
+            color: var(--primary-blue);
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
+        }
+
+        /* Tech & Learn Grid */
+        .choice-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: white;
+            width: 280px;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, border 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-blue);
+        }
+
+        .card h2 {
+            color: var(--primary-blue);
+            margin-top: 15px;
+        }
+
+        .icon {
+            font-size: 50px;
+        }
+
+        .btn-logout {
+            color: #dc3545;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/" class="logo">SkillSwap</a>
+        <a href="/logout/" class="btn-logout">Logout</a>
+    </nav>
+
+    <div class="hero">
+        <h1>WELCOME TO SKILLSWAP</h1>
+        <p>
+            SkillSwap is a community-driven platform where students trade knowledge.
+            Whether you're a master of Python or a beginner in Graphic Design,
+            this is the place to grow together.
+        </p>
+
+        <div class="choice-container">
+            <a href="/tech/" class="card">
+                <div class="icon">🎓</div>
+                <h2>TEACH</h2>
+                <p>Upload your skills and help fellow students grow.</p>
+            </a>
+
+            <a href="/learn/" class="card">
+                <div class="icon">📖</div>
+                <h2>LEARN</h2>
+                <p>Browse available skills and find a mentor today.</p>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

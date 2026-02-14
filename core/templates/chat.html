@@ -1,0 +1,67 @@
+<hr style="margin:40px 0;">
+
+<h3 style="color:#007bff;">💬 Chat with Teacher</h3>
+
+<div style="
+    height:300px;
+    overflow-y:auto;
+    background:#f9f9f9;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:15px;
+">
+
+    {% for msg in messages %}
+        {% if msg.sender == request.user %}
+            <div style="text-align:right; margin-bottom:10px;">
+                <span style="
+                    background:#007bff;
+                    color:white;
+                    padding:8px 14px;
+                    border-radius:15px;
+                    display:inline-block;
+                ">
+                    {{ msg.text }}
+                </span>
+                <div style="font-size:12px; color:#777;">
+                    {{ msg.timestamp|date:"H:i" }}
+                </div>
+            </div>
+        {% else %}
+            <div style="text-align:left; margin-bottom:10px;">
+                <span style="
+                    background:#e4e6eb;
+                    padding:8px 14px;
+                    border-radius:15px;
+                    display:inline-block;
+                ">
+                    {{ msg.text }}
+                </span>
+                <div style="font-size:12px; color:#777;">
+                    {{ msg.timestamp|date:"H:i" }}
+                </div>
+            </div>
+        {% endif %}
+    {% empty %}
+        <p>No messages yet. Start the conversation!</p>
+    {% endfor %}
+
+</div>
+
+{% if request.user != skill.teacher %}
+<form method="POST">
+    {% csrf_token %}
+    <div style="display:flex; gap:10px;">
+        <input type="text" name="message"
+               placeholder="Type your message..."
+               style="flex:1; padding:10px; border-radius:20px; border:1px solid #ddd;"
+               required>
+        <button type="submit"
+                style="background:#007bff; color:white; border:none; padding:10px 20px; border-radius:20px;">
+            Send
+        </button>
+    </div>
+</form>
+{% else %}
+<p style="color:gray;">You are the teacher of this skill.</p>
+{% endif %}

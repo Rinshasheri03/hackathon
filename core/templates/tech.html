@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post a Skill | SkillSwap</title>
+
+    <style>
+        :root { --primary-blue: #007bff; --light-bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--light-bg); margin: 0; padding: 20px; }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h2 { color: var(--primary-blue); text-align: center; margin-bottom: 25px; }
+
+        input[type="text"], textarea, input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .post-btn {
+            width: 100%;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .post-btn:hover { background: #0056b3; }
+
+        /* Chat Styles */
+        .chat-container { margin-top: 40px; }
+        .chat-box {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            max-height: 350px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 10px 14px;
+            border-radius: 18px;
+            max-width: 75%;
+            clear: both;
+            font-size: 0.95rem;
+        }
+        .chat-message.sender {
+            background: var(--primary-blue);
+            color: white;
+            float: right;
+        }
+        .chat-message.receiver {
+            background: #e4e6eb;
+            color: #333;
+            float: left;
+        }
+        .timestamp {
+            font-size: 10px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .chat-form { display: flex; gap: 10px; }
+        .chat-input {
+            flex: 1;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+        }
+        .chat-submit {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ===== Post Skill Form ===== -->
+    <h2>Share Your Knowledge</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label>Topic Name</label>
+        <input type="text" name="topic" placeholder="e.g. Advanced Python Decorations" required>
+
+        <label>Description</label>
+        <textarea name="description" rows="5" placeholder="What will students learn from this?" required></textarea>
+
+        <label>Upload Video Lesson</label>
+        <input type="file" name="video_file" accept="video/*" required>
+
+        <button type="submit" class="post-btn">🚀 Post Skill</button>
+    </form>
+
+</div>
+
+<!-- ===== Show Chat AFTER Posting ===== -->
+{% if created_skill %}
+
+<div class="container" style="margin-top:30px;">
+
+    <h2 style="text-align:center; color:var(--primary-blue);">{{ created_skill.topic }}</h2>
+
+    <!-- Video Preview -->
+    <video controls style="width:100%; border-radius:10px;">
+        <source src="{{ created_skill.video.url }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Chat -->
+    <div class="chat-container">
+        <h3 style="color:var(--primary-blue);">💬 Chat</h3>
+
+        <div class="chat-box">
+            {% if messages %}
+                {% for msg in messages %}
+                    {% if msg.sender == request.user %}
+                        <div class="chat-message sender">
+                            {{ msg.text|linebreaksbr }}
+                            <div class="timestamp">{{ msg.timestamp|date:"H:i" }}</div>
+                        </div>
+                    {% else %}
+                        <div class="chat-message receiver">
+                            {{ msg.text|linebreaksbr }}
+                            <div class="timestamp">{{ msg.timestamp|date:"H:i" }}</div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p style="color:#666;">No messages yet.</p>
+            {% endif %}
+        </div>
+
+        <form method="POST" class="chat-form">
+            {% csrf_token %}
+            <input type="text" name="message" placeholder="Type your message..." class="chat-input" required>
+            <button type="submit" class="chat-submit">Send</button>
+        </form>
+    </div>
+
+</div>
+
+{% endif %}
+
+</body>
+</html>

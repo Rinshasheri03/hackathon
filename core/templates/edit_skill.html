@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Skill</title>
+</head>
+<body>
+
+    <h2>Edit: {{ form.instance.topic }}</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">💾 Save Changes</button>
+    </form>
+
+</body>
+</html>
